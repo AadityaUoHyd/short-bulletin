@@ -5,7 +5,7 @@ spring:
   application:
     name: short-bulletin
   datasource:
-    url: jdbc:postgresql://localhost:5432/shortbulletin
+    url: jdbc:postgresql://db:5432/shortbulletin
     username: postgres
     password: password
     driver-class-name: org.postgresql.Driver

@@ -6,6 +6,9 @@ import org.aadi.short_bulletin.dto.NewsSummaryDto;
 import org.aadi.short_bulletin.entity.Bulletin;
 import org.aadi.short_bulletin.entity.NewsItem;
 import org.aadi.short_bulletin.repository.BulletinRepository;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.io.RandomAccessRead;
+import org.apache.pdfbox.io.RandomAccessReadBuffer;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.slf4j.Logger;
@@ -13,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -51,14 +55,14 @@ public class PdfProcessingService {
             item.setBulletin(bulletin);
             return item;
         }).collect(Collectors.toList());
+        
         bulletin.setNewsItems(newsItems);
-
-        logger.info("Saving bulletin for date: {}", date);
         return bulletinRepository.save(bulletin);
     }
-
     private String extractText(File pdfFile) throws IOException {
-        try (PDDocument document = PDDocument.load(pdfFile)) {
+        try (FileInputStream fis = new FileInputStream(pdfFile);
+             RandomAccessRead randomAccessRead = new RandomAccessReadBuffer(fis);
+             PDDocument document = Loader.loadPDF(randomAccessRead)) {
             if (document.isEncrypted()) {
                 logger.error("PDF is encrypted and not supported");
                 throw new IOException("Encrypted PDFs are not supported");
@@ -67,7 +71,6 @@ public class PdfProcessingService {
             PDFTextStripper stripper = new PDFTextStripper();
             StringBuilder text = new StringBuilder();
             for (int i = 1; i <= document.getNumberOfPages(); i++) {
-                stripper.setStartPage(i);
                 stripper.setEndPage(i);
                 String pageText = stripper.getText(document);
                 if (!pageText.trim().isEmpty()) {
