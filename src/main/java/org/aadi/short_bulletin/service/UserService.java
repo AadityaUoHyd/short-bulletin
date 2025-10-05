@@ -6,6 +6,7 @@ import org.aadi.short_bulletin.dto.RegisterRequest;
 import org.aadi.short_bulletin.entity.User;
 import org.aadi.short_bulletin.repository.UserRepository;
 import org.aadi.short_bulletin.util.JwtUtil;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,13 +23,17 @@ public class UserService implements UserDetailsService {
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil, AuthenticationManager authenticationManager) {
+    public UserService(
+        UserRepository userRepository, 
+        PasswordEncoder passwordEncoder, 
+        JwtUtil jwtUtil, 
+        @Lazy AuthenticationManager authenticationManager
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
         this.authenticationManager = authenticationManager;
     }
-
     public void createDefaultAdmin() {
         if (userRepository.findByUsername("Admin").isEmpty()) {
             User admin = new User();
