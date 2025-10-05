@@ -1,6 +1,17 @@
 # Short Bulletin
-An online news web platform to provide short insights of english daily news.
+ShortBulletin is an online news platform that delivers concise insights from English daily newspapers. Using SpringAI and LLM, it extracts and summarizes the top 20 news stories from a full newspaper PDF uploaded for a specific date.
 
+## Tech Stack
+- Spring Boot
+- Docker
+- Local LLM (SmolLM2)
+- PostgreSQL
+- PDFBox
+- iText
+- Thymeleaf
+- JWT
+
+## Features
 - AI-Powered News Summarizer Dashboard using Spring Boot, Docker, and Local LLM (SmolLM2).
 - This project creates a web dashboard where admins can upload daily newspaper PDFs (e.g., Indian Express), 
   processes them using a local AI model (SmolLM2 via Docker Model Runner) to extract and summarize
