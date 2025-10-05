@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bulletin Detail</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Bulletin for <span th:text="${bulletin.date}"></span></h2>
+<ul>
+    <li th:each="item : ${bulletin.newsItems}">
+        <strong th:text="${item.title}"></strong>
+        <p th:text="${item.summary}"></p>
+    </li>
+</ul>
+<a th:href="@{/bulletin/download/{date}(date=${bulletin.date})}">Download PDF</a>
+</body>
+</html>

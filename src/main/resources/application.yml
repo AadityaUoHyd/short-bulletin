@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: short-bulletin
+  datasource:
+    url: jdbc:postgresql://localhost:5432/shortbulletin
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  thymeleaf:
+    cache: false
+
+llm:
+  base-url: http://localhost:12434/v1/chat/completions
+  model: ai/smollm2:360M-Q4_K_M

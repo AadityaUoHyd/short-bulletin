@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Upload</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Upload Newspaper PDF</h2>
+<form th:action="@{/admin/process}" method="post" enctype="multipart/form-data">
+    <label>Date: <input type="date" name="date"/></label>
+    <label>PDF File: <input type="file" name="file"/></label>
+    <button type="submit">Process</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Bulletins</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h2>Available Bulletins</h2>
+<ul>
+    <!-- Loop over dates -->
+    <li th:each="date : ${dates}"><a th:href="@{/user/bulletin/{date}(date=${date})}">Bulletin for <span th:text="${date}"></span></a></li>
+</ul>
+</body>
+</html>
