@@ -12,14 +12,14 @@ ShortBulletin is an online news platform that delivers concise insights from Eng
 - JWT
 
 ## Features
-- AI-Powered News Summarizer Dashboard using Spring Boot, Docker, and Local LLM (SmolLM2).
+- AI-Powered News Summarizer Dashboard using Spring Boot, Docker, and Local LLM (gemma3).
 - This project creates a web dashboard where admins can upload daily newspaper PDFs (e.g., Indian Express), 
-  processes them using a local AI model (SmolLM2 via Docker Model Runner) to extract and summarize
+  processes them using a local AI model (gemma3 via Docker Model Runner) to extract and summarize
   the top 20 news stories (10-15 word header + 30-40 word explanation), stores them in a PostgreSQL database,
   and publishes them for users.
 - Users can register/login to view summaries by date and download a generated ShortBulletin PDF.
 - This app uses AI to condense news into short briefs.
-- Frontend uses Thymeleaf (text-only, no images). Security includes admin login (default: Admin/Admin123)
+- Frontend uses Thymeleaf (text-only, no images). Security includes admin login (default: admin/admin123)
   for uploads and user accounts for viewing.
 
 ## Prerequisites
@@ -31,8 +31,8 @@ ShortBulletin is an online news platform that delivers concise insights from Eng
 
 ## Run these command after starting docker
 ```
-docker desktop enable model-runner --tcp 12434
-docker model pull ai/smollm2:360M-Q4_K_M
+docker desktop enable model-runner --tcp=12434
+docker model pull ai/gemma3:1B-Q4_K_M (in case you don't have this model in docker desktop)
 ```
 
 ## Project Structure
@@ -81,7 +81,7 @@ short-bulletin/
     ```
     mvn spring-boot:run or docker-compose up app
     ```
-- Login as Admin/Admin123 at http://localhost:8080/login
+- Login as admin/admin123 at http://localhost:8080/login
 - Upload PDF (e.g., Indian Express full newspaper) with date.
 - System extracts text, chunks if needed, prompts LLM for top 20 summaries, saves to DB.
 - Users register at /register, login, view at /user/bulletins.
