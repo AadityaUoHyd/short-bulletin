@@ -8,9 +8,9 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class LlmService {
-    @Value("${llm.base-url}")
+    @Value("${llm.base-url:http://host.docker.internal:12434/v1/chat/completions}") // Align with Docker
     private String baseUrl;
-    @Value("${llm.model}")
+    @Value("${llm.model:ai/gemma3}") // Consistent model name
     private String model;
 
     private final RestTemplate restTemplate;
@@ -39,7 +39,6 @@ public class LlmService {
 
     private String parseLlmResponse(String response) {
         try {
-            // Assuming response contains JSON array in choices[0].message.content
             return objectMapper.readTree(response).get("choices").get(0).get("message").get("content").asText();
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse LLM response: " + e.getMessage(), e);

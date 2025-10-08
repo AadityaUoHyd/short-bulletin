@@ -1,3 +1,4 @@
+version: '3.8'
 services:
   db:
     image: postgres:15
@@ -14,7 +15,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
   app:
     build: .
     ports:
@@ -23,9 +23,21 @@ services:
       db:
         condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/short_bulletin_db
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/short_bulletin_db?currentSchema=public
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_DATASOURCE_INITIALIZATION_MODE: always
+      SPRING_DATASOURCE_SCHEMA: classpath:db/migration/V1__init.sql
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update  # Switch to 'update' after first run
+      LLM_BASE_URL: http://host.docker.internal:12434/v1/chat/completions
+      LLM_MODEL: ai/gemma3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
   postgres_data:

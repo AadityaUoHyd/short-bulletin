@@ -7,14 +7,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;  // Changed from @RestController to @Controller
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.ResponseEntity;  // Already imported
+import org.springframework.web.bind.annotation.ResponseBody;  // Add this import
 
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 
-@RestController
+@Controller  // Changed
 @RequestMapping("/admin")
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
@@ -27,10 +30,11 @@ public class AdminController {
 
     @GetMapping("/upload")
     public String showUploadForm() {
-        return "admin-upload";
+        return "admin-upload";  // Returns Thymeleaf view
     }
 
     @PostMapping("/process")
+    @ResponseBody  // Added to make this method return text/JSON, not view
     public ResponseEntity<String> uploadPdf(
             @RequestParam("file") MultipartFile file,
             @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
