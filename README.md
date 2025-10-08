@@ -1,10 +1,12 @@
-# Short Bulletin
-ShortBulletin is an online news platform that delivers concise insights from English daily newspapers. Using SpringAI and LLM, it extracts and summarizes the top 20 news stories from a full newspaper PDF uploaded for a specific date.
+# Short Bulletin (WORK IN PROGRESS)
+ShortBulletin is an online news platform that delivers concise insights from English daily newspapers.
+Using SpringAI and LLM, it extracts and summarizes the top 20 news stories from a full newspaper PDF
+uploaded for a specific date.
 
 ## Tech Stack
 - Spring Boot
 - Docker
-- Local LLM (SmolLM2)
+- Local LLM (gemma3)
 - PostgreSQL
 - PDFBox
 - iText
@@ -28,12 +30,6 @@ ShortBulletin is an online news platform that delivers concise insights from Eng
 - PostgreSQL driver (handled via Docker).
 - Apache PDFBox and iText for PDF handling (Maven deps).
 - No internet required for LLM after pulling model.
-
-## Run these command after starting docker
-```
-docker desktop enable model-runner --tcp=12434
-docker model pull ai/gemma3:1B-Q4_K_M (in case you don't have this model in docker desktop)
-```
 
 ## Project Structure
 ```
@@ -75,12 +71,28 @@ short-bulletin/
 └── README.md
 ```
 
+## Run these command after starting docker
+```
+cmd> docker model pull ai/gemma3:1B-Q4_K_M (in case you don't have this model in your docker desktop)
+
+cmd> docker model run ai/gemma3:1B-Q4_K_M
+
+Go to docker desktop and ensure,
+[Settings -> AI -> check mark on 'Enable host-side TCP support' and keep port '12434' with CORS allowed origin as 'ALL']
+
+cmd> docker desktop enable model-runner --tcp=12434
+```
+
 # Running the Project
 - Start Postgres: docker-compose up db
 - Run Model Runner (host commands above).
-    ```
-    mvn spring-boot:run or docker-compose up app
-    ```
+  ```
+    cmd> docker-compose up app
+  
+    OR,
+  
+    cmd> mvn spring-boot:run (after running postgresql with db name as 'short_bulletin_db')
+  ```
 - Login as admin/admin123 at http://localhost:8080/login
 - Upload PDF (e.g., Indian Express full newspaper) with date.
 - System extracts text, chunks if needed, prompts LLM for top 20 summaries, saves to DB.
