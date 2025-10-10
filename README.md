@@ -83,7 +83,7 @@ Go to docker desktop and ensure,
 cmd> docker desktop enable model-runner --tcp=12434
 ```
 
-# Running the Project
+## Running the Project
 - Start Postgres: docker-compose up db
 - Run Model Runner (host commands above).
   ```
@@ -98,3 +98,33 @@ cmd> docker desktop enable model-runner --tcp=12434
 - System extracts text, chunks if needed, prompts LLM for top 20 summaries, saves to DB.
 - Users register at /register, login, view at /user/bulletins.
 - Download PDF link generates on-the-fly ShortBulletin PDF.
+
+## Pending Task
+no i am getting favicon now. also style.css works. issue is with login & register. why showing jwt token post register & login?
+
+tried to login as admin role with default credentials as admin/admin123, got output at http://localhost:8080/api/auth/login:
+object
+{1}
+token
+:
+"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc1OTk1ODEwMywiZXhwIjoxNzU5OTk0MTAzfQ.R6WJeOFKfyv6s2s-saHyn8OB8D7gPyzjJCztQwj0XtQ"
+
+
+
+during trying to register as user at http://localhost:8080/api/auth/register,
+
+object
+{1}
+token
+:
+"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYWRpIiwiaWF0IjoxNzU5OTU4MjE2LCJleHAiOjE3NTk5OTQyMTZ9.7z1fuP6PZmV23p4xYx8LXXDdGLSYGJaF3gRaWsAyCYY"
+
+It should show me user-bulletin.html and it must have link for bulletin-detail, if user has logged in as USER role successfully, otherwise show credentials are wrong error. 
+In case user role has ADMIN, he must be served page admin-upload.html, so that he can upload full_newspaper pdf, which is supposed to be read by LLM in order to filter top big 20 news out of it, 
+then LLM(gemmma3) will summarize & segregate it into top 20 news with max 10-15 words as header and 40-50 word as explanation of news, 
+and provide that ShortBulletin as output in user-bulletin page as per uploaded date wise. where user can consume that ShortBulletin.
+
+I already have default admin/admin123 as admin user for security login as ADMIN user, who can insert full_newspaper. 
+Any user can register(if not duplicate register) his account in order to access(after login) published shortBulletin news on webpage.
+
+provide me codes & fixes for same.

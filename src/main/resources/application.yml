@@ -20,12 +20,17 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   thymeleaf:
     cache: false
+  #ai:
+    #openai:
+      #base-url: http://localhost:12434/engines
+      #api-key: docker
+      #chat:
+        #options:
+          #model: ai/gemma3:1B-Q4_K_M
 
 llm:
   base-url: http://host.docker.internal:12434/v1/chat/completions
   model: ai/gemma3
-
-# src/main/resources/application.yml
 
 jwt:
   secret: v8L7iLxJp6mQGhQ3ZfRjAyjZwHgMXiGHqMoY5KUwV88=
